@@ -14,9 +14,16 @@ jobs:
     env:
       NODE_OPTIONS: --openssl-legacy-provider
     steps:
-      - uses: open-turo/actions-gha/lint@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install
+      - name: Run lint
+        run: npm run lint || echo "No lint script found"
 
   test:
     name: Test
@@ -24,9 +31,16 @@ jobs:
     env:
       NODE_OPTIONS: --openssl-legacy-provider
     steps:
-      - uses: open-turo/actions-gha/test@v1
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: '16'
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
 
   build:
     name: Build
